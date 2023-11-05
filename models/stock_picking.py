@@ -16,4 +16,11 @@ class Picking(models.Model):
             })
         return res
 
+    @api.model
+    def create(self, vals):
+        recs = super(Picking,self).create(vals)
+        for rec in recs:
+            if not rec.note:
+                rec.note = rec.picking_type_id.note
+        return recs
 
