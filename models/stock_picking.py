@@ -20,7 +20,8 @@ class Picking(models.Model):
     def create(self, vals):
         recs = super(Picking,self).create(vals)
         for rec in recs:
-            if not rec.note:
+            # because the backorder picking will inherit automatically the parent picking note ,we have considered this case as exception to the rule
+            if not rec.note or rec.backorder_id:
                 rec.note = rec.picking_type_id.note
         return recs
 
